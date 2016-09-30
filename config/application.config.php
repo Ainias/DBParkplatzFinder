@@ -26,7 +26,6 @@ return [
         // Module class.
         'module_paths' => [
             './module',
-            './manualVendor/doctrine',
             './vendor',
         ],
 

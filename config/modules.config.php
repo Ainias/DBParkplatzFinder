@@ -11,6 +11,7 @@
  * This should be an array of module namespaces used in the application.
  */
 return [
+    'Zend\Mvc\Console',
     'Zend\ServiceManager\Di',
     'Zend\Session',
     'Zend\Mvc\Plugin\Prg',
@@ -18,15 +19,16 @@ return [
     'Zend\Mvc\Plugin\FlashMessenger',
     'Zend\Mvc\Plugin\FilePrg',
     'Zend\Mvc\I18n',
-    'Zend\Mvc\Console',
     'Zend\Log',
     'Zend\Form',
     'Zend\Router',
     'Zend\Validator',
 
+    'Ainias\Core',
+
     'DoctrineModule',
     'DoctrineORMModule',
-    'Ainias\Core',
+
     'Application',
     'ParkplatzFinder',
 ];

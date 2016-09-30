@@ -1,9 +1,6 @@
-.parking-lot
-{
-    border-bottom: 1px solid #bfbfbf;
-}
 .parking-lot-header
 {
+    border-bottom: 1px solid #c6c6c6;
     padding-top: 15px;
 }
 .parking-lot-name
@@ -17,6 +14,7 @@
 }
 .parking-lot-body
 {
+    margin-top: 5px;
     display: none;
 }
 .parking-lot-google-maps iframe

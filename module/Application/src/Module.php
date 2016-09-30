@@ -54,7 +54,7 @@ class Module
         $exceptionLogger->addWriter($exceptionWriter);
         Logger::registerExceptionHandler($exceptionLogger);
 
-        if ($request instanceof Request) {
+        if (($request instanceof Request)) {
             $chromePhp = new ChromePhp();
             $errorLogger->addWriter($chromePhp);
             $exceptionLogger->addWriter($chromePhp);
