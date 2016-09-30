@@ -1,22 +1,32 @@
 var parkplatzFinder = {
 
     parkingLotsUrl: null,
+    currentRequest: null,
 
-    init: function(parkingLotsUrl)
-    {
+    init: function (parkingLotsUrl) {
         this.parkingLotsUrl = parkingLotsUrl;
     },
 
     requestParkingLots: function (trainStationValue) {
-        $("#parkingLotWrapper").html("loading...");
-        $.post(this.parkingLotsUrl, {
-                trainStationId: trainStationValue
-            },
-            null,
-            "html").done(function (data) {
-            $("#parkingLotWrapper").html(data);
-        }).fail(function () {
-            $("#parkingLotWrapper").html("<i>Es gibt zu diesem Bahnhof leider keine Parkplätze.</i>");
-        });
+        if (trainStationValue != this.currentRequest) {
+            $("#parkingLotWrapper").html("loading...");
+            this.currentRequest = trainStationValue;
+
+            $.post(this.parkingLotsUrl, {
+                    trainStationId: trainStationValue
+                },
+                null,
+                "html").done(function (data) {
+                    if (trainStationValue == parkplatzFinder.currentRequest) {
+                        $("#parkingLotWrapper").html(data);
+                        parkplatzFinder.currentRequest = null;
+                    }
+            }).fail(function () {
+                if (trainStationValue == parkplatzFinder.currentRequest) {
+                    $("#parkingLotWrapper").html("<i>Es gibt zu diesem Bahnhof leider keine Parkplätze.</i>");
+                    parkplatzFinder.currentRequest = null;
+                }
+            });
+        }
     }
 };

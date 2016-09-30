@@ -1,7 +1,10 @@
 .parking-lot
 {
-    border-bottom: 1px solid #DDDDDD;
-    margin-top: 15px;
+    border-bottom: 1px solid #bfbfbf;
+}
+.parking-lot-header
+{
+    padding-top: 15px;
 }
 .parking-lot-name
 {
@@ -24,4 +27,28 @@
 .chart
 {
     min-height: 15rem;
+}
+.parking-lot.category-0 .parking-lot-header
+{
+    background-color: rgba(141, 205, 255, 0.61);
+}
+.parking-lot.category-1 .parking-lot-header
+{
+    background-color: rgba(255, 101, 87, 0.67);
+}
+.parking-lot.category-2 .parking-lot-header
+{
+    background-color: rgba(255, 182, 100, 0.66);
+}
+.parking-lot.category-3 .parking-lot-header
+{
+    background-color: rgba(251, 255, 103, 0.61);
+}
+.parking-lot.category-4 .parking-lot-header
+{
+    background-color: rgba(149, 255, 120, 0.61);
+}
+div.columns > label
+{
+    font-size: 1.5rem;
 }

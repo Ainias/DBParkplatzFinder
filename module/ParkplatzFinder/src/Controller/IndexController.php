@@ -19,7 +19,7 @@ class IndexController extends ServiceActionController
         foreach ($trainStations as $result)
         {
             //Index des Arrays wird später im Form als Value übergeben
-            $trainStationNames[$result->bahnhofsNummer] = $result->cityTitle ." - ".$result->station;
+            $trainStationNames[$result->bahnhofsNummer] = ($result->cityTitle != $result->station)?$result->cityTitle ." - ".$result->station:$result->station;
         }
         //Erstellen des Formulars innerhalb PHP
         $selectTrainStationForm = new SelectTrainStationForm($trainStationNames);

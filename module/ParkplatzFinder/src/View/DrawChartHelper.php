@@ -82,7 +82,7 @@ class DrawChartHelper extends AbstractHelper
                     xLabels: [$labels],
                     yLabels: ["0", "< 10","10 - 30", "30 - 50", "> 50" ],
                     datasets: [{
-                        label: 'Montag',
+                        label: 'Mo.',
                         data: [$dataMo],
                         borderWidth: 3,
                         borderColor: "rgba(75,192,192,1)",
@@ -93,7 +93,7 @@ class DrawChartHelper extends AbstractHelper
                         pointRadius: 5,
                     },
                     {
-                        label: 'Dienstag',
+                        label: 'Di.',
                         data: [$dataDi],
                         borderWidth: 3,
                         borderColor: "rgba(75,75,192,1)",
@@ -104,7 +104,7 @@ class DrawChartHelper extends AbstractHelper
                         pointRadius: 5,
                     },
                     {
-                        label: 'Mittwoch',
+                        label: 'Mi.',
                         data: [$dataMi],
                         borderWidth: 3,
                         borderColor: "rgba(192,75,192,1)",
@@ -115,7 +115,7 @@ class DrawChartHelper extends AbstractHelper
                         pointRadius: 5,
                     },
                     {
-                        label: 'Donnerstag',
+                        label: 'Do.',
                         data: [$dataDo],
                         borderWidth: 3,
                         borderColor: "rgba(192,75,75,1)",
@@ -126,7 +126,7 @@ class DrawChartHelper extends AbstractHelper
                         pointRadius: 5,
                     },
                     {
-                        label: 'Freitag',
+                        label: 'Fr.',
                         data: [$dataFr],
                         borderWidth: 3,
                         borderColor: "rgba(192,192,75,1)",
@@ -137,7 +137,7 @@ class DrawChartHelper extends AbstractHelper
                         pointRadius: 5,
                     },
                     {
-                        label: 'Samstag',
+                        label: 'Sa.',
                         data: [$dataSa],
                         borderWidth: 3,
                         borderColor: "rgba(75,192,75,1)",
@@ -148,7 +148,7 @@ class DrawChartHelper extends AbstractHelper
                         pointRadius: 5,
                     },
                     {
-                        label: 'Sonntag',
+                        label: 'So.',
                         data: [$dataSo],
                         borderWidth: 3,
                         borderColor: "rgba(192,192,192,1)",

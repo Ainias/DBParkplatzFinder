@@ -4,6 +4,7 @@ $this->inlineScript()->captureStart();
 echo <<<JS
     $(document).ready(function(){
         $(".parking-lot").click(function(){
+            var parkingLot = $(this);
             $(this).children(".parking-lot-body").slideToggle(200, function(){
                 var body = this
                 var card = $(this).find(".parking-lot-google-maps");
@@ -32,15 +33,21 @@ echo <<<JS
     
 JS;
 $this->inlineScript()->captureEnd();
+?>
+<div class = 'row'>
+    <div class = 'columns small-12'>
+        <p>Drücke auf einen Parkplatz, um weitere Informationen zu erhalten.</p>
+    </div>
+</div>
+<?php
 foreach ($this->parkingLots as $parkingLot) {
     $prediction = $parkingLot["occupancyPrediction"];
     $occupancy = $parkingLot["currentOccupancy"];
     $parkingLot = $parkingLot["parkingLot"];
     ?>
-    <div class='parking-lot'>
+    <div class='parking-lot category-<?= $occupancy->allocation->category?>'>
         <div class='row parking-lot-header'>
-            <div class='columns small-10 medium-6 large-5 parking-lot-name'><?= $parkingLot->parkraumDisplayName ?>
-                &nbsp;</div><?php//nbsp nur, damit bei leerem Namen auch richtig eingerückt wird ?>
+            <div class='columns small-10 medium-6 large-5 parking-lot-name'><?= ($parkingLot->parkraumDisplayName != "")?$parkingLot->parkraumDisplayName:"<i><small>Kein Name vorhanden</small></i>" ?></div>
             <div class='columns small-2 medium-2 large-1'><?= $occupancy->allocation->text ?></div>
         </div>
         <div class='row parking-lot-body' data-equalizer>

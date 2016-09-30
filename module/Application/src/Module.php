@@ -7,10 +7,8 @@
 
 namespace Application;
 
-use Ainias\Core\Connections\MyConnection;
-use Ainias\Core\Model\Doctrine\DatabaseListener;
-use Doctrine\ORM\EntityManager;
 use Zend\EventManager\Event;
+use Zend\Http\Request;
 use Zend\Http\Response;
 use Zend\Log\Filter\Priority;
 use Zend\Log\Logger;
@@ -33,11 +31,12 @@ class Module
         $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+        $request = $e->getRequest();
+
 
         $logPath = realpath(self::LOG_DIR);
         $logger = new Logger();
         $catchAllWriter = new Stream($logPath . "/log.log");
-        $chromePhp = new ChromePhp();
         $logger->addWriter($catchAllWriter);
         $errorWriter = new Stream($logPath . "/error.log");
         $errorWriter->addFilter(new Priority(Logger::ERR));
@@ -46,7 +45,6 @@ class Module
         $phpErrorWriter = new Stream($logPath . "/php_error.log");
         $errorLogger->addWriter($catchAllWriter);
         $errorLogger->addWriter($phpErrorWriter);
-        $errorLogger->addWriter($chromePhp);
         Logger::registerErrorHandler($errorLogger);
         Logger::registerFatalErrorShutdownFunction($errorLogger);
 
@@ -54,8 +52,13 @@ class Module
         $exceptionWriter = new Stream($logPath . "/php_exceptions.log");
         $exceptionLogger->addWriter($catchAllWriter);
         $exceptionLogger->addWriter($exceptionWriter);
-        $exceptionLogger->addWriter($chromePhp);
         Logger::registerExceptionHandler($exceptionLogger);
+
+        if ($request instanceof Request) {
+            $chromePhp = new ChromePhp();
+            $errorLogger->addWriter($chromePhp);
+            $exceptionLogger->addWriter($chromePhp);
+        }
 
         $eventManager->getSharedManager()->attach('*', self::EVENT_LOG, function (Event $e) use ($logger) {
             $params = $e->getParams();

@@ -27,11 +27,6 @@ return [
     'DoctrineModule',
     'DoctrineORMModule',
     'Ainias\Core',
-//    'Ainias\CodeManagement',
-//    'Ainias\Cronjob',
-//    'Ainias\UserManagement',
-//    'Ainias\TelegramBot',
-//    'Ainias\TelegramUserBot',
     'Application',
     'ParkplatzFinder',
 ];
