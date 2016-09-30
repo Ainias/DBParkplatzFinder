@@ -1,0 +1,58 @@
+<?php
+
+use \Zend\Mvc\Plugin\FlashMessenger\FlashMessenger;
+
+$n = 0;
+echo "<div id = 'flashMessageContainerAbsoulte'><div id = 'flashMessageContainer'></div></div>";
+$this->inlineScript()->captureStart();
+echo <<<JS
+    $(document).ready(function(){
+JS;
+$this->flashMessenger()->setNamespace(FlashMessenger::NAMESPACE_SUCCESS);
+foreach (array_merge($this->flashMessenger()->getMessages(), $this->flashMessenger()->getCurrentMessages()) as $message) {
+    $message = $this->escapeJs($message);
+    echo <<<JS
+        flashMessenger.addMessage(flashMessenger.messageTypeSuccess, "$message");
+JS;
+}
+
+$this->flashMessenger()->setNamespace(FlashMessenger::NAMESPACE_DEFAULT);
+foreach (array_merge($this->flashMessenger()->getMessages(), $this->flashMessenger()->getCurrentMessages()) as $message) {
+    $message = $this->escapeJs($message);
+    echo <<<JS
+        flashMessenger.addMessage(flashMessenger.messageTypeDefault, "$message");
+JS;
+}
+
+$this->flashMessenger()->setNamespace(FlashMessenger::NAMESPACE_ERROR);
+foreach (array_merge($this->flashMessenger()->getMessages(), $this->flashMessenger()->getCurrentMessages()) as $message) {
+    $message = $this->escapeJs($message);
+    echo <<<JS
+        flashMessenger.addMessage(flashMessenger.messageTypeError, "$message");
+JS;
+}
+
+$this->flashMessenger()->setNamespace(FlashMessenger::NAMESPACE_INFO);
+foreach (array_merge($this->flashMessenger()->getMessages(), $this->flashMessenger()->getCurrentMessages()) as $message) {
+    $message = $this->escapeJs($message);
+    echo <<<JS
+        flashMessenger.addMessage(flashMessenger.messageTypeInfo, "$message");
+JS;
+}
+
+$this->flashMessenger()->setNamespace(FlashMessenger::NAMESPACE_WARNING);
+foreach (array_merge($this->flashMessenger()->getMessages(), $this->flashMessenger()->getCurrentMessages()) as $message) {
+    $message = $this->escapeJs($message);
+    echo <<<JS
+        flashMessenger.addMessage(flashMessenger.messageTypeWarning, "$message");
+JS;
+}
+
+echo <<<JS
+    });
+JS;
+
+$this->inlineScript()->captureEnd();
+
+$this->flashMessenger()->clearCurrentMessagesFromContainer();
+$this->flashMessenger()->clearMessagesFromContainer();

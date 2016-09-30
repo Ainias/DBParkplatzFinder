@@ -1,0 +1,31 @@
+<?php
+$this->headScript()->appendFile("http://maps.google.com/maps/api/js?key=AIzaSyDUSTTHIZTkV3BeYQHypVwiEFCMQqhKB2U&libraries=places", "text/javascript");
+
+$parkingLotUrl = $this->url("parkplatzFinder/getParkingLots", [], ["force_canonical" => true]);
+$this->inlineScript()->captureStart();
+echo <<<JS
+    $(document).ready(function(){
+        parkplatzFinder.init("$parkingLotUrl", "");
+        $("#trainStation").change(function(){
+            parkplatzFinder.requestParkingLots(this.value);
+        }); 
+        $("#train-station-submit-button").click(function(){
+            parkplatzFinder.requestParkingLots($("#trainStation").val());
+        }); 
+    });
+    
+JS;
+$this->inlineScript()->captureEnd();
+?>
+<div class = 'row'>
+    <div class = 'columns small-10 medium-6 large-5'>
+        <?= $this->formRow($this->form->get("trainStation"))?>
+    </div>
+    <div class = 'columns small-2 medium-1'>
+        <!-- Dient dazu, dass Button auf selber Höhe ist, wie Selectbox -->
+        <label for = 'train-station-submit-button'>&nbsp;</label>
+        <button id = 'train-station-submit-button' class = 'button'>OK</button>
+    </div>
+    <div id = 'parkingLotWrapper' class = 'columns small-12'></div>
+</div>
+

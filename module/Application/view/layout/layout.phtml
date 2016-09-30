@@ -1,0 +1,90 @@
+<?= $this->doctype() ?>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <?= $this->headTitle('ZF Skeleton Application')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+    <?= $this->headMeta()
+        ->prependName('viewport', 'width=device-width, initial-scale=1.0')
+        ->prependHttpEquiv('X-UA-Compatible', 'IE=edge')
+    ?>
+
+    <!-- Le styles -->
+    <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
+        ->prependStylesheet($this->basePath('css/parkplatzFinder.css'))
+        ->prependStylesheet($this->basePath('css/myForm.css'))
+        ->prependStylesheet($this->basePath('css/flashMessenger.css'))
+        ->prependStylesheet($this->basePath('css/style.css'))
+        ->prependStylesheet($this->basePath('3rdParty/jquery/jquery-ui.structure.min.css'))
+        ->prependStylesheet($this->basePath('3rdParty/jquery/jquery-ui.theme.min.css'))
+        ->prependStylesheet($this->basePath('3rdParty/jquery/jquery-ui.min.css'))
+        ->prependStylesheet($this->basePath('3rdParty/foundation/foundation.min.css'))
+    ?>
+
+    <!-- Scripts -->
+    <?= $this->headScript()
+        ->prependFile($this->basePath('js/parkplatzFinder.js'))
+        ->prependFile($this->basePath('js/myDialog.js'))
+        ->prependFile($this->basePath('js/settings.js'))
+        ->prependFile($this->basePath('js/flashMessenger.js'))
+        ->prependFile($this->basePath('3rdParty/jquery/jquery-ui.min.js'))
+        ->prependFile($this->basePath('3rdParty/jquery/jquery-2.2.4.min.js'))
+        ->prependFile("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js");
+    ?>
+
+
+    <?php $this->inlineScript()
+        ->prependFile($this->basePath('js/always.js'))
+        ->prependFile($this->basePath('3rdParty/foundation/foundation.min.js'))
+        ->prependFile($this->basePath('3rdParty/foundation/what-input.js'));
+    ?>
+</head>
+<body>
+
+<nav class="top-bar">
+    <div class="row">
+        <div class="top-bar-title">
+        <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
+          <button class="menu-icon dark" type="button" data-toggle></button>
+        </span>
+            <strong>
+                <?php
+                //TODO Logo-Namen, alt Attribut und Name anpassen
+                ?>
+                <img src="<?= $this->basePath('img/zf-logo.png') ?>"
+                     alt="Zend Framework"/>&nbsp;Skeleton
+            </strong>
+            <br/>
+        </div>
+        <div id="responsive-menu">
+            <div class="top-bar-left">
+                <?= $this->navigation('Zend\Navigation\Left')->menu()->setAddClassToListItem(true)->setUlClass("menu dropdown vertical medium-horizontal"); ?>
+            </div>
+            <div class="top-bar-right">
+                <?= $this->navigation('Zend\Navigation\Right')->menu()->setAddClassToListItem(true)->setUlClass("menu dropdown vertical medium-horizontal"); ?>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="mainContainer">
+    <div class="row">
+        <div class="columns small-12">
+            <?php
+            include("alerts.phtml");
+            //Verhindert XSS
+            echo $this->noTag($this->noJs($this->content));
+            ?>
+        </div>
+    </div>
+</div>
+<footer>
+    <?php
+    //TODO Footer anpassen
+    ?>
+    <small>
+    </small>
+</footer>
+<?= $this->inlineScript() ?>
+</body>
+</html>

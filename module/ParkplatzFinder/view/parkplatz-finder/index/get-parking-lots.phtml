@@ -1,0 +1,133 @@
+<?php
+
+$this->inlineScript()->captureStart();
+echo <<<JS
+    $(document).ready(function(){
+        $(".parking-lot").click(function(){
+            $(this).children(".parking-lot-body").slideToggle(200, function(){
+                var body = this
+                var card = $(this).find(".parking-lot-google-maps");
+                if ($(card).html() == "")
+                {
+                    var geocoder = new google.maps.Geocoder;
+                    geocoder.geocode({
+                            'location': {
+                                lat: parseFloat($(this).find(".parking-lot-latitude").html()),
+                                lng: parseFloat($(this).find(".parking-lot-longitude").html())
+                            }
+                        },
+                        function (results, status) {
+                            if (status == google.maps.GeocoderStatus.OK) {
+                                if (results[0]) {
+                                    $(card).html("<iframe frameborder='0' src='https://www.google.com/maps/embed/v1/place?key=AIzaSyDHp3Bcz_QYsU1ypPlQJV38k4tpWS3REjg&q=place_id:"+results[0].place_id+"' allowfullscreen></iframe>");
+                                    $(body).foundation();
+                                }
+                            }
+                        }
+                    )
+                }
+            });
+        });
+    });
+    
+JS;
+$this->inlineScript()->captureEnd();
+foreach ($this->parkingLots as $parkingLot) {
+    $prediction = $parkingLot["occupancyPrediction"];
+    $occupancy = $parkingLot["currentOccupancy"];
+    $parkingLot = $parkingLot["parkingLot"];
+    ?>
+    <div class='parking-lot'>
+        <div class='row parking-lot-header'>
+            <div class='columns small-10 medium-6 large-5 parking-lot-name'><?= $parkingLot->parkraumDisplayName ?>
+                &nbsp;</div><?php//nbsp nur, damit bei leerem Namen auch richtig eingerückt wird ?>
+            <div class='columns small-2 medium-2 large-1'><?= $occupancy->allocation->text ?></div>
+        </div>
+        <div class='row parking-lot-body' data-equalizer>
+            <div class='columns small-12 medium-8 large-6 parking-lot-informations' data-equalizer-watch>
+                <div class='hide parking-lot-longitude'><?= $parkingLot->parkraumGeoLongitude ?></div>
+                <div class='hide parking-lot-latitude'><?= $parkingLot->parkraumGeoLatitude ?></div>
+                <div class='row'>
+                    <div class='columns small-4'>Bahnhof:</div>
+                    <div class='columns small-8'><?= $parkingLot->parkraumBahnhofName ?></div>
+                </div>
+                <div class='row'>
+                    <div class='columns small-4'>Freie Parkplätze:</div>
+                    <div class='columns small-8'><?php
+                        switch ($occupancy->allocation->category) {
+                            case 1: {
+                                echo "Weniger als 10 verfügbare Parkplätze";
+                                break;
+                            }
+                            case 2: {
+                                echo "Zwischen 10 und 30 verfügbare Parkplätze";
+                                break;
+                            }
+                            case 3: {
+                                echo "Zwischen 30 und 50 verfügbare Parkplätze";
+                                break;
+                            }
+                            case 4: {
+                                echo "Über 50 verfügbare Parkpätze";
+                                break;
+                            }
+                            default: {
+                                echo "Keine Daten verfügbar";
+                                break;
+                            }
+                        }
+                        ?></div>
+                </div>
+                <div class='row'>
+                    <div class='columns small-4'>Entfernung<span class='hide-for-small-only'> vom Bahnhof</span>:</div>
+                    <div class='columns small-8'><?= $parkingLot->parkraumEntfernung ?> Meter</div>
+                </div>
+                <div class='row'>
+                    <div class='columns small-4'>Öffnungszeiten:</div>
+                    <div class='columns small-8'><?= $parkingLot->parkraumOeffnungszeiten ?></div>
+                </div>
+                <div class='row'>
+                    <div class='columns small-4'>Tarif:</div>
+                    <div class='columns small-8'>
+                        <div class='row <?= ($parkingLot->tarif20Min == "") ? "hide" : "" ?>'>
+                            <div class='columns small-6'>20 Min.</div>
+                            <div class='columns small-6'><?= $parkingLot->tarif20Min ?> €</div>
+                        </div>
+                        <div class='row <?= ($parkingLot->tarif30Min == "") ? "hide" : "" ?>'>
+                            <div class='columns small-6'>30 Min.</div>
+                            <div class='columns small-6'><?= $parkingLot->tarif30Min ?> €</div>
+                        </div>
+                        <div class='row <?= ($parkingLot->tarif1Std == "") ? "hide" : "" ?>'>
+                            <div class='columns small-6'>1 Std.</div>
+                            <div class='columns small-6'><?= $parkingLot->tarif1Std ?> €</div>
+                        </div>
+                        <div class='row <?= ($parkingLot->tarif1Tag == "") ? "hide" : "" ?>'>
+                            <div class='columns small-6'>1 Tag</div>
+                            <div class='columns small-6'><?= $parkingLot->tarif1Tag ?> €</div>
+                        </div>
+                        <div class='row <?= ($parkingLot->tarif1Woche == "") ? "hide" : "" ?>'>
+                            <div class='columns small-6'>1 Woche</div>
+                            <div class='columns small-6'><?= $parkingLot->tarif1Woche ?> €</div>
+                        </div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='columns small-4'>Parkdauer:</div>
+                    <div class='columns small-8'><?= $parkingLot->tarifParkdauer ?></div>
+                </div>
+                <div class='row'>
+                    <div class='columns small-4'>Stellplätze:</div>
+                    <div class='columns small-8'><?= $parkingLot->parkraumStellplaetze ?></div>
+                </div>
+                <div class='row'>
+                    <div class='columns small-4'>Betreiber:</div>
+                    <div class='columns small-8'><?= $parkingLot->parkraumBetreiber ?></div>
+                </div>
+            </div>
+            <div class='columns small-12 medium-4 large-6 parking-lot-google-maps' data-equalizer-watch></div>
+            <div class='columns small-12 parking-lot-prediction'><?=$this->drawPredictionChart($prediction)?></div>
+        </div>
+    </div>
+    <?php
+}
+
