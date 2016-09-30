@@ -31,7 +31,7 @@ return [
 
     'session_config' => array(
         'options' => array(
-            'name' => 'silasLinkId',
+            'name' => 'DBParkplatzFinderId',
             'cookie_httponly' => true,
         ),
 //        'storage' => 'Zend\Session\Storage\SessionArrayStorage',
