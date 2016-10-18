@@ -26,14 +26,15 @@ class OccupancyHistoryFetchController extends ServiceActionController
         //Umwandeln und speichern in die DB
         /** @var OccupancyManager $occupancyManager */
         $occupancyManager = $this->get(OccupancyManager::class);
-        foreach ($occupancies->allocations as $currentOccupancy)
-        {
-            $occupancy = new Occupancy();
-            $occupancy->setSiteId($currentOccupancy->site->siteId);
-            $occupancy->setCategory($currentOccupancy->allocation->category);
-            $occupancy->setTimeSegment(\DateTime::createFromFormat("Y-m-d\\TH:i:s", $currentOccupancy->allocation->timeSegment));
-            $occupancy->setTimestamp(\DateTime::createFromFormat("Y-m-d\\TH:i:s", $currentOccupancy->allocation->timestamp));
-            $occupancyManager->save($occupancy, false);
+        foreach ($occupancies->allocations as $currentOccupancy) {
+            if ($currentOccupancy->allocation->validData) {
+                $occupancy = new Occupancy();
+                $occupancy->setSiteId($currentOccupancy->site->siteId);
+                $occupancy->setCategory($currentOccupancy->allocation->category);
+                $occupancy->setTimeSegment(\DateTime::createFromFormat("Y-m-d\\TH:i:s", $currentOccupancy->allocation->timeSegment));
+                $occupancy->setTimestamp(\DateTime::createFromFormat("Y-m-d\\TH:i:s", $currentOccupancy->allocation->timestamp));
+                $occupancyManager->save($occupancy, false);
+            }
         }
         $occupancyManager->emFlush(); //Erst hier flushen => in einer Transaktion
 
