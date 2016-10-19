@@ -27,7 +27,7 @@ class OccupancyHistoryFetchController extends ServiceActionController
         /** @var OccupancyManager $occupancyManager */
         $occupancyManager = $this->get(OccupancyManager::class);
         foreach ($occupancies->allocations as $currentOccupancy) {
-            if ($currentOccupancy->allocation->validData) {
+            if ($currentOccupancy->allocation->validData && isset($currentOccupancy->allocation->category)) {
                 $occupancy = new Occupancy();
                 $occupancy->setSiteId($currentOccupancy->site->siteId);
                 $occupancy->setCategory($currentOccupancy->allocation->category);
